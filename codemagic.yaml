@@ -82,62 +82,6 @@ workflows:
         submit_to_app_store: true
 
 
-  unity-android-workflow:
-    name: Unity Android Workflow
-    max_build_duration: 120
-    environment:
-      android_signing:
-        - keystore_reference
-      groups:
-        - unity_credentials
-        - google_play
-      vars:
-        BUILD_SCRIPT: BuildAndroid
-        PACKAGE_NAME: "io.codemagic.unitysample"
-        GOOGLE_PLAY_TRACK: alpha
-    scripts:
-      - name: Activate Unity License
-        script: |
-          $UNITY_HOME/Contents/MacOS/Unity -batchmode -quit -logFile \
-            -serial ${UNITY_SERIAL?} \
-            -username ${UNITY_EMAIL?} \
-            -password ${UNITY_PASSWORD?}
-      - name: Set build number
-        script: |
-          export NEW_BUILD_NUMBER=$(($(google-play get-latest-build-number \
-            --package-name "$PACKAGE_NAME" \
-            --tracks="$GOOGLE_PLAY_TRACK") + 1))
-      - name: Build the project
-        script: |
-          $UNITY_HOME/Contents/MacOS/Unity -batchmode \
-          -quit \
-          -logFile \
-          -projectPath . \
-          -executeMethod BuildScript.$BUILD_SCRIPT \
-          -nographics
-    artifacts:
-      - android/*.aab
-    publishing:
-      scripts:
-        - name: Deactivate Unity License
-          script: | 
-            /Applications/Unity\ Hub.app/Contents/Frameworks/UnityLicensingClient_V1.app/Contents/MacOS/Unity.Licensing.Client \
-            --return-ulf \
-            --username ${UNITY_EMAIL?} \
-            --password ${UNITY_PASSWORD?}
-      email:
-        recipients:
-          - user_1@example.com
-          - user_2@example.com
-        notify:
-          success: true
-          failure: false
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: GOOGLE_PLAY_TRACK
-        submit_as_draft: true
-
-
 
   unity-windows-workflow:
     name: Unity Windows Workflow
