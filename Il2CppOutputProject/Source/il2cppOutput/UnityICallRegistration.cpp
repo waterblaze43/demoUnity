@@ -50,6 +50,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_Unity_Collections_LowLevel_Unsafe_UnsafeUtility_MemCpy();
 		Register_Unity_Collections_LowLevel_Unsafe_UnsafeUtility_MemCpy();
 
+		//System.Void Unity.Collections.LowLevel.Unsafe.UnsafeUtility::MemCpyReplicate(System.Void*,System.Void*,System.Int32,System.Int32)
+		void Register_Unity_Collections_LowLevel_Unsafe_UnsafeUtility_MemCpyReplicate();
+		Register_Unity_Collections_LowLevel_Unsafe_UnsafeUtility_MemCpyReplicate();
+
 		//System.Void Unity.Collections.LowLevel.Unsafe.UnsafeUtility::MemCpyStride(System.Void*,System.Int32,System.Void*,System.Int32,System.Int32,System.Int32)
 		void Register_Unity_Collections_LowLevel_Unsafe_UnsafeUtility_MemCpyStride();
 		Register_Unity_Collections_LowLevel_Unsafe_UnsafeUtility_MemCpyStride();
@@ -457,6 +461,10 @@ void RegisterAllStrippedInternalCalls()
 		//System.Boolean Unity.Profiling.ProfilerRecorder::GetValid_Injected(Unity.Profiling.ProfilerRecorder&)
 		void Register_Unity_Profiling_ProfilerRecorder_GetValid_Injected();
 		Register_Unity_Profiling_ProfilerRecorder_GetValid_Injected();
+
+		//System.Int32 Unity.Profiling.ProfilerRecorder::CopyTo_Pointer_Injected(Unity.Profiling.ProfilerRecorder&,Unity.Profiling.ProfilerRecorderSample*,System.Int32,System.Boolean)
+		void Register_Unity_Profiling_ProfilerRecorder_CopyTo_Pointer_Injected();
+		Register_Unity_Profiling_ProfilerRecorder_CopyTo_Pointer_Injected();
 
 		//System.Int32 Unity.Profiling.ProfilerRecorder::GetCount_Injected(Unity.Profiling.ProfilerRecorder&,Unity.Profiling.ProfilerRecorder/CountOptions)
 		void Register_Unity_Profiling_ProfilerRecorder_GetCount_Injected();
@@ -3086,6 +3094,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_Mesh_set_indexFormat_Injected();
 		Register_UnityEngine_Mesh_set_indexFormat_Injected();
 
+		//UnityEngine.Rendering.IndexFormat UnityEngine.Mesh::get_indexFormat_Injected(System.IntPtr)
+		void Register_UnityEngine_Mesh_get_indexFormat_Injected();
+		Register_UnityEngine_Mesh_get_indexFormat_Injected();
+
 	//End Registrations for type : UnityEngine.Mesh
 
 	//Start Registrations for type : UnityEngine.MeshFilter
@@ -3814,6 +3826,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_Rendering_CommandBuffer_BeginSample_Injected();
 		Register_UnityEngine_Rendering_CommandBuffer_BeginSample_Injected();
 
+		//System.Void UnityEngine.Rendering.CommandBuffer::BeginSample_ProfilerMarker_Injected(System.IntPtr,System.IntPtr)
+		void Register_UnityEngine_Rendering_CommandBuffer_BeginSample_ProfilerMarker_Injected();
+		Register_UnityEngine_Rendering_CommandBuffer_BeginSample_ProfilerMarker_Injected();
+
 		//System.Void UnityEngine.Rendering.CommandBuffer::Blit_Identifier_Injected(System.IntPtr,UnityEngine.Rendering.RenderTargetIdentifier&,UnityEngine.Rendering.RenderTargetIdentifier&,System.IntPtr,System.Int32,UnityEngine.Vector2&,UnityEngine.Vector2&,System.Int32,System.Int32)
 		void Register_UnityEngine_Rendering_CommandBuffer_Blit_Identifier_Injected();
 		Register_UnityEngine_Rendering_CommandBuffer_Blit_Identifier_Injected();
@@ -3909,6 +3925,10 @@ void RegisterAllStrippedInternalCalls()
 		//System.Void UnityEngine.Rendering.CommandBuffer::EndSample_Injected(System.IntPtr,UnityEngine.Bindings.ManagedSpanWrapper&)
 		void Register_UnityEngine_Rendering_CommandBuffer_EndSample_Injected();
 		Register_UnityEngine_Rendering_CommandBuffer_EndSample_Injected();
+
+		//System.Void UnityEngine.Rendering.CommandBuffer::EndSample_ProfilerMarker_Injected(System.IntPtr,System.IntPtr)
+		void Register_UnityEngine_Rendering_CommandBuffer_EndSample_ProfilerMarker_Injected();
+		Register_UnityEngine_Rendering_CommandBuffer_EndSample_ProfilerMarker_Injected();
 
 		//System.Void UnityEngine.Rendering.CommandBuffer::IncrementUpdateCount_Injected(System.IntPtr,UnityEngine.Rendering.RenderTargetIdentifier&)
 		void Register_UnityEngine_Rendering_CommandBuffer_IncrementUpdateCount_Injected();
