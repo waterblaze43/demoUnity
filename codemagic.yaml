@@ -1,0 +1,82 @@
+workflows:
+  unity-ios-workflow:
+    name: Unity iOS Workflow
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+    integrations:
+      app_store_connect: codemagic
+    environment:
+      ios_signing:
+        distribution_type: development
+        bundle_identifier: io.codemagic.unitysample
+      groups:
+        - unity_credentials
+      vars:
+        BUILD_SCRIPT: BuildIos
+        UNITY_IOS_DIR: ios
+        XCODE_PROJECT: "Unity-iPhone.xcodeproj"
+        XCODE_SCHEME: "Unity-iPhone"
+        APP_STORE_APP_ID: 1555555551
+      cocoapods: default
+    scripts:
+      - name: Activate Unity License
+        script: |
+          $UNITY_HOME/Contents/MacOS/Unity -batchmode -quit -logFile \
+            -serial ${UNITY_SERIAL?} \
+            -username ${UNITY_EMAIL?} \
+            -password ${UNITY_PASSWORD?}
+      - name: Generate the Xcode project from Unity
+        script: |
+          $UNITY_HOME/Contents/MacOS/Unity -batchmode \
+            -quit \
+            -logFile \
+            -projectPath . \
+            -executeMethod BuildScript.$BUILD_SCRIPT \
+            -nographics
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Increment build number
+        script: |
+          BUILD_NUMBER=($(app-store-connect get-latest-app-store-build-number "$APP_ID") + 1)
+          cd $UNITY_IOS_DIR
+          agvtool new-version -all $BUILD_NUMBER
+      - name: Build ipa for distribution
+        script: |
+          xcode-project build-ipa \
+            --project "$UNITY_IOS_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      scripts:
+        - name: Deactivate Unity License
+          script: | 
+            /Applications/Unity\ Hub.app/Contents/Frameworks/UnityLicensingClient_V1.app/Contents/MacOS/Unity.Licensing.Client \
+            --return-ulf \
+            --username ${UNITY_EMAIL?} \
+            --password ${UNITY_PASSWORD?}
+      email:
+        recipients:
+          - user_1@example.com
+          - user_2@example.com
+        notify:
+          success: true
+          failure: false
+      app_store_connect:
+        auth: integration
+        #
+        # Configuration related to TestFlight (optional)
+        # Note: This action is performed during post-processing.
+        submit_to_testflight: true 
+        #
+        # Specify the names of beta tester groups that will get access 
+        # to the build once it has passed beta review.
+        beta_groups:
+          - group name 1
+          - group name 2
+        #
+        # Configuration related to App Store (optional)
+        # Note: This action is performed during post-processing.
+        submit_to_app_store: true
